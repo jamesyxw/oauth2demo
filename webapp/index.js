@@ -1,11 +1,12 @@
+var googleUser = {}
+
 function onSuccess(googleUser) {
     var profile = googleUser.getBasicProfile();
     var userInfoElem = document.getElementById("userinfo");
-    addLiToElement(userInfoElem, "H2", 'User Info');
-    addLiToElement(userInfoElem, "LI", 'ID: ' + profile.getId());
-    addLiToElement(userInfoElem, "LI", 'Name: ' + profile.getName());
-    addLiToElement(userInfoElem, "LI", 'Email: ' + profile.getEmail());
-    addLiToElement(userInfoElem, "LI", 'id_token: ' + googleUser.getAuthResponse().id_token);
+    addToElement(userInfoElem, "H2", 'User Info');
+    addToElement(userInfoElem, "LI", 'ID: ' + profile.getId());
+    addToElement(userInfoElem, "LI", 'Name: ' + profile.getName());
+    addToElement(userInfoElem, "LI", 'id_token: ' + googleUser.getAuthResponse().id_token);
 }
 
 function onFailure(error) {
@@ -24,7 +25,7 @@ function renderButton() {
     });
 }
 
-function addLiToElement(element, type, text) {
+function addToElement(element, type, text) {
     var node = document.createElement(type);
     var content = document.createTextNode(text);
     node.appendChild(content);

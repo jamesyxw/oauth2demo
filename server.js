@@ -11,6 +11,12 @@ const jsonParser = bodyParser.json();
 const client = new OAuth2Client(oauthClientId);
 const app = express();
 
+const userSecret = {
+    "pineapplepen128@gmail.com": {
+        "bankAccountNumber": "1234-5678-1234-5678"
+    }
+};
+
 app.use(jsonParser);
 app.use(morgan('combined'));
 
@@ -39,12 +45,21 @@ function validateReq(req, res, next) {
 
 app.use("/api/v1/*", validateReq);
 
-app.get('/api/v1/secret', (req, res) => {
+app.get('/api/v1/bankaccount', (req, res) => {
+    var userEmail = req.userContext.email;
+    if (!userEmail) {
+        res.status(403).send("Unknown user");
+    }
     res.status(200).send({
-        email: req.userContext.email
+        "user": userEmail,
+        "bankAccount" : getBackAccountNumber(userEmail)
     });
 });
 
+function getBackAccountNumber(userEmail) {
+    console.log(userEmail);
+    return userSecret[userEmail].bankAccountNumber;
+}
 
 
 app.use(express.static('webapp'));
